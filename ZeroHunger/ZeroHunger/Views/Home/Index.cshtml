@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Welcome to Zero Hunger</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            color: #333333;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .jumbotron {
+            background-color: #D5CAEB; /* lavender background color */
+            color: #DA70D6; /* White text color */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .jumbotron h2 {
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .jumbotron p {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+
+            .jumbotron hr {
+                border-top: 1px solid #ffffff; /* White border color */
+                margin-top: 40px;
+                margin-bottom: 30px;
+            }
+
+        .btn-custom {
+            background-color: #DA70D6; /* pink button color */
+            border-color: #A12A9C;
+            color: #ffffff;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                background-color: #A12A9C; /* Darker pnk color on hover */
+                border-color: #A12A9C;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h2>Who are you?</h2>
+
+            <hr class="my-4">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <a href="@Url.Action("Login", "Restaurant")" class="btn btn-lg btn-custom" role="button">Restaurant</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="@Url.Action("Login", "Employee")" class="btn btn-lg btn-custom" role="button">Employee</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="@Url.Action("Dashboard", "Admin")" class="btn btn-lg btn-custom" role="button">Admin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

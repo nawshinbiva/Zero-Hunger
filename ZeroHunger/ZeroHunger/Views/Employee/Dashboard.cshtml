@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ZeroHunger.DTO.AssignedRequestDTO>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            color: #333333;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .jumbotron {
+            background-color: #D5CAEB; /* lavender background color */
+            color: #DA70D6; /* White text color */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .jumbotron h2 {
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .jumbotron p {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+
+            .jumbotron hr {
+                border-top: 1px solid #ffffff; /* White border color */
+                margin-top: 40px;
+                margin-bottom: 30px;
+            }
+
+        .btn-custom {
+            background-color: #DA70D6; /* pink button color */
+            border-color: #A12A9C;
+            color: #ffffff;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                background-color: #A12A9C; /* Darker pink color on hover */
+                border-color: #A12A9C;
+            }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="@Url.Action("Logout", "Employee")" class="btn btn-danger logout-btn">Logout</a>
+
+        <div class="jumbotron">
+            <h2>Employee Dashboard</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Restaurant ID</th>
+                        <th>Request DateTime</th>
+                        <th>Maximum Preservation Time</th>
+                        <th>Food Item Name</th>
+                        <th>Food Item Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td>@request.Request_ID</td>
+                            <td>@request.Restaurant_ID</td>
+                            <td>@request.Request_DateTime</td>
+                            <td>@request.Maximum_Preservation_Time</td>
+                            <td>@request.FoodItem_Name</td>
+                            <td>@request.FoodItem_Quantity</td>
+                            <td><button class="btn btn-custom" onclick="completeRequest(@request.Request_ID)">Complete</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+    function completeRequest(requestId) {
+        if (confirm("Are you sure you want to mark this request as completed?")) {
+            $.ajax({
+                url: '@Url.Action("CompleteRequest", "Employee")',
+                type: 'POST',
+                data: { requestId: requestId },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Request marked as completed successfully.");
+                        window.location.reload();
+                    } else {
+                        alert("Error marking request as completed.");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while processing the request.");
+                }
+            });
+        }
+    }
+    </script>
+
+</body>
+</html>

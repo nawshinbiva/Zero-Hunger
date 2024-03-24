@@ -1,0 +1,104 @@
+﻿@model ZeroHunger.DTO.CollectRequestDTO
+
+@{
+    ViewBag.Title = "CreateCollectRequest";
+}
+
+<style>
+    body {
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        color: #333333;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    .jumbotron {
+        background-color: #D5CAEB; /* lavender background color */
+        color: #DA70D6; /* White text color */
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+        background-color: #DA70D6; /* pink button color */
+        border-color: #A12A9C;
+        color: #ffffff;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+        .btn-custom:hover {
+            background-color: #A12A9C; /* Darker pink color on hover */
+            border-color: #A12A9C;
+        }
+</style>
+
+<h2>Create Collect Request</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Collect Request Details</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Request_DateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Request_DateTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Request_DateTime, "", new { @class = "text-danger" })
+            </div>
+        </div><br />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Maximum_Preservation_Time, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Maximum_Preservation_Time, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Maximum_Preservation_Time, "", new { @class = "text-danger" })
+            </div>
+        </div><br />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FoodItem_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FoodItem_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FoodItem_Name, "", new { @class = "text-danger" })
+            </div>
+        </div><br />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FoodItem_Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FoodItem_Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FoodItem_Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div><br />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div><br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-custom" />
+            </div>
+        </div>
+    </div><br />
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Dashboard")
+</div><br />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

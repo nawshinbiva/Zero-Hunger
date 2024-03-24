@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ZeroHungerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Admin_ID" />
+    </Key>
+    <Property Name="Admin_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CollectAssignment">
+    <Key>
+      <PropertyRef Name="Assignment_ID" />
+    </Key>
+    <Property Name="Assignment_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Request_ID" Type="Int32" Nullable="false" />
+    <Property Name="Employee_ID" Type="Int32" Nullable="false" />
+    <Property Name="Assignment_DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CollectRequest" Relationship="Self.FK_CollectAssignments_CollectRequests" FromRole="CollectAssignments" ToRole="CollectRequests" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_CollectAssignments_Employees" FromRole="CollectAssignments" ToRole="Employees" />
+  </EntityType>
+  <EntityType Name="CollectRequest">
+    <Key>
+      <PropertyRef Name="Request_ID" />
+    </Key>
+    <Property Name="Request_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Restaurant_ID" Type="Int32" Nullable="false" />
+    <Property Name="Request_DateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Maximum_Preservation_Time" Type="Int32" Nullable="false" />
+    <Property Name="FoodItem_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FoodItem_Quantity" Type="Double" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CollectAssignments" Relationship="Self.FK_CollectAssignments_CollectRequests" FromRole="CollectRequests" ToRole="CollectAssignments" />
+    <NavigationProperty Name="Restaurant" Relationship="Self.FK_CollectRequests_Restaurants" FromRole="CollectRequests" ToRole="Restaurants" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Employee_ID" />
+    </Key>
+    <Property Name="Employee_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Employee_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CollectAssignments" Relationship="Self.FK_CollectAssignments_Employees" FromRole="Employees" ToRole="CollectAssignments" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="Restaurant_ID" />
+    </Key>
+    <Property Name="Restaurant_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Restaurant_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CollectRequests" Relationship="Self.FK_CollectRequests_Restaurants" FromRole="Restaurants" ToRole="CollectRequests" />
+  </EntityType>
+  <Association Name="FK_CollectAssignments_CollectRequests">
+    <End Role="CollectRequests" Type="Self.CollectRequest" Multiplicity="1" />
+    <End Role="CollectAssignments" Type="Self.CollectAssignment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CollectRequests">
+        <PropertyRef Name="Request_ID" />
+      </Principal>
+      <Dependent Role="CollectAssignments">
+        <PropertyRef Name="Request_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CollectAssignments_Employees">
+    <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+    <End Role="CollectAssignments" Type="Self.CollectAssignment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="Employee_ID" />
+      </Principal>
+      <Dependent Role="CollectAssignments">
+        <PropertyRef Name="Employee_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CollectRequests_Restaurants">
+    <End Role="Restaurants" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="CollectRequests" Type="Self.CollectRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurants">
+        <PropertyRef Name="Restaurant_ID" />
+      </Principal>
+      <Dependent Role="CollectRequests">
+        <PropertyRef Name="Restaurant_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ZeroHungerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="CollectAssignments" EntityType="Self.CollectAssignment" />
+    <EntitySet Name="CollectRequests" EntityType="Self.CollectRequest" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+    <AssociationSet Name="FK_CollectAssignments_CollectRequests" Association="Self.FK_CollectAssignments_CollectRequests">
+      <End Role="CollectRequests" EntitySet="CollectRequests" />
+      <End Role="CollectAssignments" EntitySet="CollectAssignments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CollectAssignments_Employees" Association="Self.FK_CollectAssignments_Employees">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="CollectAssignments" EntitySet="CollectAssignments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CollectRequests_Restaurants" Association="Self.FK_CollectRequests_Restaurants">
+      <End Role="Restaurants" EntitySet="Restaurants" />
+      <End Role="CollectRequests" EntitySet="CollectRequests" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
